@@ -45,7 +45,7 @@ def read_and_store_data(vehicle_name, filename, content):
     vehicles_and_stats = get_vehicles_and_headers(headers)
     results_dict = {"vehicle_events": [], "door_events": [], "counter_events": []}
 
-    for row in rows:
+    for i, row in enumerate(rows):
         row_dict = row_to_dict(row, headers)
         try:
             event_dict = create_vehicle_data(filename, row_dict, vehicles_and_stats, vehicle_name)
@@ -53,7 +53,7 @@ def read_and_store_data(vehicle_name, filename, content):
             results_dict["door_events"] += event_dict["door_events"]
             results_dict["counter_events"] += event_dict["counter_events"]
         except Exception as e:
-            fatal('ERROR in file {}'.format(filename))
+            fatal('ERROR in file {}:{}'.format(filename, i))
             continue
     try:
         with database.atomic():
