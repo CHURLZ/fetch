@@ -6,3 +6,10 @@ import os
 config = configparser.ConfigParser()
 config.read('./app/config.ini')
 
+
+def get_config(path):
+    try:
+        config.read(path)
+        return config
+    except:
+        raise

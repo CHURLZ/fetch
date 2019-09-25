@@ -1,16 +1,19 @@
 import datetime
 
-from app import config
 from peewee import Model, CharField, IntegerField, DateTimeField, ForeignKeyField, AutoField, UUIDField
-from peewee import PostgresqlDatabase, SqliteDatabase
+from peewee import PostgresqlDatabase
 
-database = SqliteDatabase('vehicle_stats.db', 'Pooling=true')
+from app import get_config
 
-host = config.get("default", "POSTGRES_HOST")
-port = config.get("default", "POSTGRES_PORT")
-user = config.get("default", "POSTGRES_USER")
-passw = config.get("default", "POSTGRES_PASSW")
-db = config.get("default", "POSTGRES_DB")
+# database = SqliteDatabase('vehicle_stats.db', 'Pooling=true')
+
+config = get_config('../app/config.ini')
+
+host = config.get("db", "POSTGRES_HOST")
+port = config.get("db", "POSTGRES_PORT")
+user = config.get("db", "POSTGRES_USER")
+passw = config.get("db", "POSTGRES_PASSW")
+db = config.get("db", "POSTGRES_DB")
 database = PostgresqlDatabase(db, user=user, password=passw, host=host, port=port)
 
 
@@ -33,7 +36,7 @@ class VehicleEventSummary(BaseModel):
 
 
 class CounterEvent(BaseModel):
-    id = AutoField()
+    id = UUIDField(primary_key=True)
     counter = IntegerField()
     boarding = IntegerField()
     departing = IntegerField()
