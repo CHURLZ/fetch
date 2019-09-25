@@ -23,7 +23,7 @@ def store_data_from_ftp():
     file_index = build_index(qs, 'filename', 'vehicle')
     with FTPClient() as ftp:
         dirs = ftp.ls_by_pattern('logging', pattern=r"([12]\d{3}_(0[1-9]|1[0-2])_(0[1-9]|[12]\d|3[01]))")
-        for d in dirs[:10]:
+        for d in dirs:
             logging.info('{}'.format(d))
             vehicles = ftp.ls_by_pattern('logging', d, pattern=r"\d{4,}", )
             for v in vehicles:
